@@ -1,50 +1,102 @@
-# generate-subtitles
+# Whisper AI Generate Subtitles & Transcriptions
 
-Generate transcripts for audio and video content with a user friendly UI, powered by Open AI's Whisper with automatic translations powered by LibreTranslate. Live for free public use at https://freesubtitles.ai
+A powerful, user-friendly web application for generating accurate transcripts and subtitles from audio and video content. Powered by OpenAI's Whisper AI with automatic translations via LibreTranslate.
 
-## Installation:
-Under the hood, `generate-subtitles` uses Whisper AI for creating transcripts and Libretranslate for generating the translations. Libretranslate is optional and not required to run the service.
+🌐 **Live Demo**: [freesubtitles.ai](https://freesubtitles.ai)
 
-You can find the installation instructions for Whisper here: https://github.com/openai/whisper#setup
+## ✨ Features
 
-Once Whisper is installed and working properly, you can start the web server.
+- **AI-Powered Transcription**: Uses OpenAI Whisper for highly accurate speech-to-text
+- **Multi-Language Support**: 100+ languages for transcription and 50+ for translation
+- **Multiple Input Sources**: Upload files or process YouTube videos directly
+- **Real-Time Progress**: WebSocket-powered live transcription status
+- **Multiple Output Formats**: SRT, VTT subtitle formats
+- **Translation Services**: Automatic subtitle translation via LibreTranslate
+- **Modern Web Interface**: Responsive, mobile-friendly design
+- **Batch Processing**: Queue system for handling multiple files
+- **Cloud Ready**: Docker support and cloud deployment guides
 
-Make sure you are running Node.js 14+
+## 📖 Documentation
 
-`nvm use 14`
+- **[Installation Guide](INSTALLATION.md)** - Complete step-by-step setup instructions
+- **[Development Logs](DEVELOPMENT_LOGS.md)** - Track development progress and decisions
+- **[Change Log](CHANGELOG.md)** - Version history and release notes
+- **[Development Plans](DEVELOPMENT_PLANS.md)** - Roadmap and future features
+- **[API Documentation](docs/)** - Technical documentation and examples
 
-You can install Node 14 with `nvm`:
+## 🛠️ Technology Stack
 
-```shell
-# install nvm
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+- **Backend**: Node.js, Express.js
+- **Frontend**: Pug templates, vanilla JavaScript, CSS
+- **AI/ML**: OpenAI Whisper, LibreTranslate
+- **Real-time**: WebSockets for live progress updates
+- **File Processing**: FFmpeg for audio/video handling
+- **Queue System**: Custom implementation for batch processing
 
-# setup nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+## 🔧 Configuration
 
-nvm install 14
-nvm use 14
+The application uses environment variables for configuration. Copy `.env.sample` to `.env` and customize:
+
+```env
+# Server Configuration
+PORT=3000
+NODE_ENV=development
+
+# Whisper Settings
+WHISPER_MODEL=base          # tiny, base, small, medium, large
+WHISPER_DEVICE=auto         # auto, cpu, cuda
+
+# Features
+ENABLE_YOUTUBE_DOWNLOAD=true
+ENABLE_TRANSLATIONS=true
+FILES_PASSWORD=your_password
+
+# Translation Service (Optional)
+LIBRETRANSLATE_URL=https://libretranslate.de
 ```
 
-Currently the app uses `yt-dlp` as well, you can install it with:
+## 📊 Supported Formats
 
-```shell
-sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp #download yt-dlp
-sudo chmod a+rx /usr/local/bin/yt-dlp  # Make executable
-```
+### Input Formats
+- **Audio**: MP3, WAV, FLAC, M4A, AAC, OGG
+- **Video**: MP4, AVI, MOV, MKV, WEBM, FLV
+- **URLs**: YouTube, direct media links
 
-Then:
+### Output Formats
+- **Subtitles**: SRT, VTT
+- **Text**: Plain text transcriptions
+- **Languages**: 100+ supported languages
 
-```shell
-git clone https://github.com/mayeaux/generate-subtitles
+## 🚀 Quick Start
+
+### Option 1: One-Command Setup
+```bash
+git clone https://github.com/mayeaux/generate-subtitles.git
 cd generate-subtitles
-npm install
+./setup.sh  # Linux/macOS
+# or setup.ps1 for Windows
 npm start
 ```
 
-This should start the server at localhost:3000, at which point if you navigate to there with a browser you should be able to see and use the app.
+### Option 2: Manual Installation
+For detailed setup instructions, see our comprehensive [Installation Guide](INSTALLATION.md).
+
+### Basic Requirements
+- Node.js 18+ 
+- Python 3.8+
+- FFmpeg
+- OpenAI Whisper
+
+```bash
+# Quick install (after prerequisites)
+git clone https://github.com/mayeaux/generate-subtitles.git
+cd generate-subtitles
+npm install
+cp .env.sample .env
+npm start
+```
+
+Navigate to `http://localhost:3000` to start using the application.
 
 ## Using a GPU Cloud Provider
 Note: Unless you have a GPU that can use CUDA, you will likely have to use your CPU to transcribe which is significantly less performant, hence why you may have to rent a GPU server from a cloud provider. The only GPU cloud provider that I've had a good experience with is VastAI which is what I use to run https://freesubtitles.ai , if you use this link I should receive a 2.5% of your purchase for the referral: http://vast.ai/?ref=52232
@@ -69,3 +121,121 @@ Then hit the `SELECT` button (the one that's to the right of the CUDA descriptio
 <img src="https://user-images.githubusercontent.com/7200471/207619664-4baeae12-9139-40bd-b4a3-2ac9bf4dffc3.JPG" alt="Screen Shot 2022-12-14 at 3 16 22 PM" width="600" />
 
 Hit `SELECT & SAVE` and when you create an instance it should have the proper ports opened to be able to access the web app. Vast uses port forwarding so when your port 3000 is opened it will be accessed through another port but you should be able to figure that out from their interface.
+
+## 🚀 Deployment Options
+
+### Local Development
+```bash
+npm run dev  # Start with nodemon for auto-restart
+```
+
+### Production Deployment
+```bash
+npm start    # Standard production start
+```
+
+### Docker Deployment
+```bash
+docker-compose up -d
+```
+
+### Cloud Deployment
+See our [Installation Guide](INSTALLATION.md) for detailed cloud deployment instructions including:
+- VPS setup
+- GPU cloud providers (Vast.ai, Google Colab)
+- Kubernetes deployment
+- CDN configuration
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how you can help:
+
+### For Developers
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+### For Users
+- 🐛 **Report bugs** via GitHub Issues
+- 💡 **Suggest features** and improvements
+- 📝 **Improve documentation**
+- 🧪 **Test beta features** and provide feedback
+
+### Development Setup
+```bash
+git clone https://github.com/mayeaux/generate-subtitles.git
+cd generate-subtitles
+npm install
+cp .env.sample .env
+npm run dev  # Start development server
+```
+
+See [Development Logs](DEVELOPMENT_LOGS.md) for coding standards and contribution guidelines.
+
+## 📈 Performance & Hardware
+
+### CPU Processing
+- **Minimum**: 4GB RAM, multi-core processor
+- **Recommended**: 16GB RAM, 8+ cores
+- **Large files**: Consider cloud GPU instances
+
+### GPU Acceleration (Recommended)
+- **NVIDIA GPU** with CUDA support
+- **4GB+ VRAM** for medium models
+- **10GB+ VRAM** for large models
+- **Up to 10x faster** than CPU processing
+
+### Model Performance Comparison
+
+| Model | Size | Speed | Accuracy | RAM Usage | Best For |
+|-------|------|-------|----------|-----------|----------|
+| tiny | 39 MB | ⚡⚡⚡⚡⚡ | ⭐⭐ | 1GB | Quick tests |
+| base | 74 MB | ⚡⚡⚡⚡ | ⭐⭐⭐ | 1GB | General use |
+| small | 244 MB | ⚡⚡⚡ | ⭐⭐⭐⭐ | 2GB | Balanced |
+| medium | 769 MB | ⚡⚡ | ⭐⭐⭐⭐⭐ | 5GB | High accuracy |
+| large | 1550 MB | ⚡ | ⭐⭐⭐⭐⭐ | 10GB | Best quality |
+
+## 📞 Support & Community
+
+### Getting Help
+- 📚 **Documentation**: Start with our [Installation Guide](INSTALLATION.md)
+- 🐛 **Issues**: Search existing [GitHub Issues](https://github.com/mayeaux/generate-subtitles/issues)
+- 💬 **Discussions**: Join [GitHub Discussions](https://github.com/mayeaux/generate-subtitles/discussions)
+- 📧 **Contact**: Create a detailed issue report
+
+### Reporting Issues
+Please include:
+- Operating system and version
+- Node.js and Python versions
+- Complete error messages
+- Steps to reproduce the problem
+- Expected vs. actual behavior
+
+### Community Resources
+- **Live Demo**: [freesubtitles.ai](https://freesubtitles.ai)
+- **GitHub**: [Project Repository](https://github.com/mayeaux/generate-subtitles)
+- **Documentation**: [Installation](INSTALLATION.md) | [API Docs](docs/) | [Development](DEVELOPMENT_LOGS.md)
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **OpenAI** for the incredible Whisper speech recognition model
+- **LibreTranslate** for open-source translation services
+- **yt-dlp** for YouTube video processing capabilities
+- **FFmpeg** for robust audio/video processing
+- **Community contributors** who help improve this project
+
+## ⭐ Star History
+
+If this project helped you, please consider giving it a star! It helps others discover the project and motivates continued development.
+
+---
+
+**Made with ❤️ by the open-source community**
+
+For more information, visit our [comprehensive documentation](INSTALLATION.md) or try the [live demo](https://freesubtitles.ai).
