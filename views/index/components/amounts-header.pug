@@ -1,0 +1,17 @@
+style.
+  input[type=file], /* FF, IE7+, chrome (except button) */
+  input[type=file]::-webkit-file-upload-button { /* chromes and blink button */
+    cursor: pointer;
+  }
+
+if isFreeSubtitles
+  .firstHeader
+    a(href='/' target='_blank' style="text-decoration: none;")
+      h1 FreeSubtitles.AI
+    .transcribedStats
+      h3.amountsHeader #{siteStats.amountOfTranscriptions} transcriptions completed
+      h3.amountsHeader #{siteStats.humanReadableTime} transcribed
+    //.fileLimitsDiv
+    //  h3.amountsHeader File Limits:
+    //  h3.amountsHeader Size: #{uploadLimitInMB}MB
+    //  h3.amountsHeader Duration: 1 Hour
